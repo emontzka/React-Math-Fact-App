@@ -12,11 +12,13 @@ class App extends Component {
     this.handleStopClick = this.handleStopClick.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
     this.createProblem = this.createProblem.bind(this);
+    this.newProblem = this.newProblem.bind(this);
     this.state = {
       isRunning: false,
       secondsElapsed: 15,
       lastClearedIncrementer: null,
-      mathProblems: []
+      mathProblems: [],
+      problems : []
       
     };
    this.incrementer = null;
@@ -43,6 +45,22 @@ class App extends Component {
       }
     }
     this.incrementer = setInterval(countDown, 1000);
+  }
+
+    newProblem(e)  {
+    const num1 = randomizer(2,12);
+    const num2 = randomizer(2,12);
+    const product = num1 * num2;
+    const problem = {
+      num1: num1,
+      num2: num2,
+      product: product
+    }
+    console.log("clicked");
+    
+    this.setState(prevState => {
+      problems: this.prevState.problems.push('hello');
+    })      
   }
 
 
@@ -78,10 +96,12 @@ class App extends Component {
     const num1 = randomizer(2,12);
     const num2 = randomizer(2,12);
     const product = num1 * num2;
+    const key = Date.now();
     const problem = {
       num1: num1,
       num2: num2,
-      product: product
+      product: product,
+      key: key
     }
     this.setState({
       mathProblems: this.state.mathProblems.concat(problem)
@@ -104,7 +124,9 @@ class App extends Component {
         secondsElapsed={this.state.secondsElapsed} />
 
         <MathFact mathProblems={this.state.mathProblems}
-        createProblem={this.createProblem} />
+        createProblem={this.createProblem}
+        newProblem={this.newProblem}
+        problems={this.state.problems} />
 
       </div>
 

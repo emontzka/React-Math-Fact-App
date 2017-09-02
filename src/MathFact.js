@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-// import { randomizer } from './helpers';
+import { randomizer } from './helpers';
 
 class MathFact extends Component {
+  constructor(props) {
+    super(props);
+    
+    // this.state = {
+      
+    // }
+  }
+          // <div className="problem">
+          // {Object.keys(this.props.mathProblems).map( (key,i) => {
+          //       const prob = this.props.mathProblems[i];
+          //         return (`Hello there ${prob.num1} <br />`);
+          //     }
+          //   )}
+          // </div>
 
-  // addProblem = function(e) {
-  //   e.preventDefault();
-  //   // TODO: Make one number pull from the settings object
-  //   const num1 = randomizer(2,12);
-  //   const num2 = randomizer(2,12);
-  //   const product = num1 * num2;
-  //   const problem = {
-  //     num1: num1,
-  //     num2: num2,
-  //     product: product
-  //   }
-  //   this.props.mathProblems.push('hello');
-  // }
 
   render() {
     return (
@@ -25,10 +26,9 @@ class MathFact extends Component {
           <h2>MathFact</h2>
           <button onClick={this.props.createProblem}>add problem</button>
 
-
-
+          <button onClick={(e) => this.props.newProblem(e)}>Problem</button>
+          <div>{this.props.problems}</div>
         </div>
-
       </div>
 
     );
