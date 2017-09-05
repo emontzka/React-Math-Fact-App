@@ -11,14 +11,13 @@ class App extends Component {
     this.handleStartClick = this.handleStartClick.bind(this);
     this.handleStopClick = this.handleStopClick.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
-    this.createProblem = this.createProblem.bind(this);
-    this.newProblem = this.newProblem.bind(this);
+    this.addProblem = this.addProblem.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
     this.state = {
       isRunning: false,
-      secondsElapsed: 15,
+      secondsElapsed: 60,
       lastClearedIncrementer: null,
-      mathProblems: [],
-      problems : []
+      mathProblems: []
       
     };
    this.incrementer = null;
@@ -32,9 +31,13 @@ class App extends Component {
 
       if (this.state.secondsElapsed > 0 ) {
         this.setState({
-
           secondsElapsed: this.state.secondsElapsed -1,
-          isRunning: true
+          isRunning: true,
+          // mathProblems: {
+          // num1 : randomizer(1,9),
+          // num2 : randomizer(1,9)
+          // }
+
         });
       } else {
         this.setState({
@@ -45,24 +48,8 @@ class App extends Component {
       }
     }
     this.incrementer = setInterval(countDown, 1000);
+    this.addProblem();
   }
-
-    newProblem(e)  {
-    const num1 = randomizer(2,12);
-    const num2 = randomizer(2,12);
-    const product = num1 * num2;
-    const problem = {
-      num1: num1,
-      num2: num2,
-      product: product
-    }
-    console.log("clicked");
-    
-    this.setState(prevState => {
-      problems: this.prevState.problems.push('hello');
-    })      
-  }
-
 
   handleStopClick() {
     // this.isRunning = false;
@@ -81,32 +68,59 @@ class App extends Component {
       secondsElapsed: 15,
       isRunning: false
     });
-  }  
-  // toggleIsRunning() {
-  //   console.log('it ran');
-  //   // this.setState({
-  //   //   isRunning: true
-  //   // })
-  // }  
-
-  createProblem(e) {
-    e.preventDefault();
-    // TODO: Make one number pull from the settings object
-
-    const num1 = randomizer(2,12);
-    const num2 = randomizer(2,12);
-    const product = num1 * num2;
-    const key = Date.now();
+  } 
+  // console.log(this.state.mathProblems);
+  addProblem() {
+    const timestamp = Date.now();
     const problem = {
-      num1: num1,
-      num2: num2,
-      product: product,
-      key: key
+      num1 : randomizer(1,9),
+      num2 : randomizer(1,9),
+      answered: false,
+      correct : false,
+      key: timestamp
     }
     this.setState({
-      mathProblems: this.state.mathProblems.concat(problem)
+      mathProblems : this.state.mathProblems.concat(problem)
     });
+    
   }
+
+
+
+  checkAnswer(e, index) {
+    // console.log(e.target.value);
+    // console.log(index);
+    // console.log(this.state.mathProblems[index].num1);
+    const {num1, num2} = this.state.mathProblems[index];
+    const sum = num1 * num2;
+    const answer = e.target.value;
+    let answeredProblem = this.state.mathProblems;
+
+    if (parseInt(answer) === sum ) {
+      answeredProblem[index].correct = true;
+    }
+    answeredProblem[index].answered = true;
+    this.setState((prevState) => {
+        return {mathProblems: answeredProblem};
+    });
+
+    const timestamp = Date.now();
+    const problem = {
+      num1 : randomizer(1,9),
+      num2 : randomizer(1,9),
+      answered: false,
+      correct : false,
+      key: timestamp
+    }
+    this.setState({
+      mathProblems : this.state.mathProblems.concat(problem)
+    });
+
+    // this.setState(prevState => ({
+    //   // mathProblems: prevState.mathProblems[index].answered = true
+    // }));
+  }
+
 
   render() {
 
@@ -122,11 +136,19 @@ class App extends Component {
         handleStopClick={this.handleStopClick} 
         handleResetClick={this.handleResetClick} 
         secondsElapsed={this.state.secondsElapsed} />
+        <button onClick={this.addProblem}></button>
+        <ul>
+        {Object.keys(this.state.mathProblems)
+          .map(key => <MathFact key={key} index={key}
+          problem={this.state.mathProblems[key]} 
+          checkAnswer={this.checkAnswer}/>)
+          // .filter(prob => {
+          //   this
+          //   // this.state.problem.answered === false;
+          // })
 
-        <MathFact mathProblems={this.state.mathProblems}
-        createProblem={this.createProblem}
-        newProblem={this.newProblem}
-        problems={this.state.problems} />
+        }
+        </ul>
 
       </div>
 
