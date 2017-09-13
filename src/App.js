@@ -86,6 +86,7 @@ class App extends Component {
   this.setState(prevState => ({
     mathProblems: prevState.mathProblems.concat(newProblem)
   }));
+  console.log(this.state.value);
   e.target.input = "";
   e.target.focus();
 }

@@ -19,10 +19,8 @@ class Answer extends Component {
       <form onSubmit={(e) => {this.props.handleAnswer(e,num1,num2,{input}) }} >
       <input value={this.state.value} onChange={this.handleInput} type="text" autoFocus   />
       <input type="submit" value="Submit" />
-     
+      {console.log(this.state.value)}
       </form>
-    
-
     );
   }
 }
