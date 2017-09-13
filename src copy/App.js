@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Timer from './Timer';
 import MathFact from './MathFact';
+import { randomizer } from './helpers';
 
 class App extends Component {
 
@@ -10,7 +11,8 @@ class App extends Component {
     this.handleStartClick = this.handleStartClick.bind(this);
     this.handleStopClick = this.handleStopClick.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
-    this.handleAnswer = this.handleAnswer.bind(this);
+    this.addProblem = this.addProblem.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
     this.state = {
       isRunning: false,
       secondsElapsed: 60,
@@ -46,7 +48,7 @@ class App extends Component {
       }
     }
     this.incrementer = setInterval(countDown, 1000);
-    // this.addProblem();
+    this.addProblem();
   }
 
   handleStopClick() {
@@ -67,39 +69,57 @@ class App extends Component {
       isRunning: false
     });
   } 
-  
-  handleAnswer(e, num1, num2, input) {
-    e.preventDefault();
-    const val = parseInt(input.input);
-    // const val = parseInt(e.input.value);
-    console.log(e);
-    console.log(val);
-    // if (val === NaN ) {return false}
-    const isCorrect = num1 * num2 === val ?  true : false;
-    const newProblem = {
-      num1 : num1,
-      num2 : num2,
-      answer : val,
-      isCorrect : isCorrect
-    }
-  if ( !isNaN(val)) {
-  this.setState(prevState => ({
-    mathProblems: prevState.mathProblems.concat(newProblem)
-  }));
-  e.target.input = "";
-  e.target.focus();
-}
-
   // console.log(this.state.mathProblems);
-    // this.setState({
-    //   mathProblems : mathProblems.push(newProblem)
-    // });
+  addProblem() {
+    const timestamp = Date.now();
+    const problem = {
+      num1 : randomizer(1,9),
+      num2 : randomizer(1,9),
+      answered: false,
+      correct : false,
+      key: timestamp
+    }
+    this.setState({
+      mathProblems : this.state.mathProblems.concat(problem)
+    });
     
   }
-    
-  
 
 
+
+  checkAnswer(e, index) {
+    // console.log(e.target.value);
+    // console.log(index);
+    // console.log(this.state.mathProblems[index].num1);
+    const {num1, num2} = this.state.mathProblems[index];
+    const sum = num1 * num2;
+    const answer = e.target.value;
+    let answeredProblem = this.state.mathProblems;
+
+    if (parseInt(answer) === sum ) {
+      answeredProblem[index].correct = true;
+    }
+    answeredProblem[index].answered = true;
+    this.setState((prevState) => {
+        return {mathProblems: answeredProblem};
+    });
+
+    const timestamp = Date.now();
+    const problem = {
+      num1 : randomizer(1,9),
+      num2 : randomizer(1,9),
+      answered: false,
+      correct : false,
+      key: timestamp
+    }
+    this.setState({
+      mathProblems : this.state.mathProblems.concat(problem)
+    });
+
+    // this.setState(prevState => ({
+    //   // mathProblems: prevState.mathProblems[index].answered = true
+    // }));
+  }
 
 
   render() {
@@ -115,11 +135,20 @@ class App extends Component {
         <Timer handleStartClick={this.handleStartClick} 
         handleStopClick={this.handleStopClick} 
         handleResetClick={this.handleResetClick} 
-        secondsElapsed={this.state.secondsElapsed}
-        isRunning={this.state.isRunning} />
+        secondsElapsed={this.state.secondsElapsed} />
+        <button onClick={this.addProblem}></button>
+        <ul>
+        {Object.keys(this.state.mathProblems)
+          .map(key => <MathFact key={key} index={key}
+          problem={this.state.mathProblems[key]} 
+          checkAnswer={this.checkAnswer}/>)
+          // .filter(prob => {
+          //   this
+          //   // this.state.problem.answered === false;
+          // })
 
-
-        {this.state.isRunning && <MathFact isRunning={this.state.isRunning} mathProblems={this.state.mathProblems} handleAnswer={this.handleAnswer} />}
+        }
+        </ul>
 
       </div>
 

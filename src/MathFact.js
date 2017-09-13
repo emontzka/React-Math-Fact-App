@@ -1,31 +1,36 @@
 import React, { Component } from 'react';
-// import { randomizer } from './helpers';
+import Answer from './Answer';
+import { randomizer } from './helpers';
 
 class MathFact extends Component {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.mathProblems !== this.props.mathProblems
+  }
+      
+   
   render() {
 
-    const {num1, num2, answered} = this.props.problem;
-    const index = this.props.index;
-    const isAnswered = () => {
-      if (answered) {
-        return "answered";
-      }
-    }
+    const num1 = randomizer(2,12);
+    const num2 = randomizer(2,12);
+    // const isRunning = {props.isRunning};
 
+    
 
-    return (
-      <div className="MathFact">
-
-
-        <div className={isAnswered()}>
-          
-          {num1} X {num2} = <input onBlur={(e) => {this.props.checkAnswer(e, index)}} type="text" />
+      return (
+        <div className="MathFact">
+        
+          <div>
+            {num1} X {num2} = <Answer mathProblems={this.props.mathProblems} handleAnswer={this.props.handleAnswer} num1={num1} num2={num2} />
+          </div>
 
         </div>
-      </div>
-
-    );
+      );
+   
   }
+ 
 }
 
 export default MathFact;
+
+
