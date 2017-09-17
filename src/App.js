@@ -13,7 +13,7 @@ class App extends Component {
     this.handleAnswer = this.handleAnswer.bind(this);
     this.state = {
       isRunning: false,
-      secondsElapsed: 60,
+      secondsElapsed: 360,
       lastClearedIncrementer: null,
       mathProblems: []
       
@@ -89,6 +89,9 @@ class App extends Component {
   console.log(this.state.value);
   e.target.input = "";
   e.target.focus();
+  console.dir(this.textInput.value);
+  this.textInput.value = "";
+
 }
 
   // console.log(this.state.mathProblems);
@@ -120,7 +123,10 @@ class App extends Component {
         isRunning={this.state.isRunning} />
 
 
-        {this.state.isRunning && <MathFact isRunning={this.state.isRunning} mathProblems={this.state.mathProblems} handleAnswer={this.handleAnswer} />}
+        {this.state.isRunning && <MathFact isRunning={this.state.isRunning} 
+        mathProblems={this.state.mathProblems} 
+        handleAnswer={this.handleAnswer} 
+        inputRef={input => this.textInput = input}/>}
 
       </div>
 

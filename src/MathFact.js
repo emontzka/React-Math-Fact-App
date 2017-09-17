@@ -21,7 +21,7 @@ class MathFact extends Component {
         <div className="MathFact">
         
           <div>
-            {num1} X {num2} = <Answer mathProblems={this.props.mathProblems} handleAnswer={this.props.handleAnswer} num1={num1} num2={num2} />
+            {num1} X {num2} = <Answer mathProblems={this.props.mathProblems} handleAnswer={this.props.handleAnswer} num1={num1} num2={num2} inputRef={this.props.inputRef} />
           </div>
 
         </div>

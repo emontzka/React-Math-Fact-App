@@ -7,8 +7,14 @@ class Answer extends Component {
     this.handleInput = this.handleInput.bind(this);
   }
 
+   componentDidMount() {
+    console.log('it mounted');
+  }
+
   handleInput(e) {
     this.setState({value: e.target.value});
+    // this.textInput.value = "";
+    // console.log(this.textInput.value);
   }
   render() {
     const {num1, num2} = this.props;
@@ -17,7 +23,7 @@ class Answer extends Component {
 
     return (
       <form onSubmit={(e) => {this.props.handleAnswer(e,num1,num2,{input}) }} >
-      <input value={this.state.value} onChange={this.handleInput} type="text" autoFocus   />
+      <input  ref={this.props.inputRef} value={this.state.value} onChange={this.handleInput} type="text"    />
       <input type="submit" value="Submit" />
       {console.log(this.state.value)}
       </form>
@@ -28,3 +34,7 @@ class Answer extends Component {
 export default Answer;
 
 // <input onBlur={(e) => {this.props.checkAnswer(e, index)}} type="text" />
+
+// ref={(input) => { this.textInput = input; }}
+
+// Control input state from App component. Move handleInput to app and bind. 
