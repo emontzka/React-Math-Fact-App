@@ -1,135 +1,69 @@
 import React, { Component } from 'react';
 import './App.css';
-import Timer from './Timer';
 import MathFact from './MathFact';
+import Timer from './Timer';
 
 class App extends Component {
-
   constructor(props) {
     super(props);
-    this.handleStartClick = this.handleStartClick.bind(this);
-    this.handleStopClick = this.handleStopClick.bind(this);
-    this.handleResetClick = this.handleResetClick.bind(this);
-    this.handleAnswer = this.handleAnswer.bind(this);
+    this.handleIsRunning = this.handleIsRunning.bind(this);
+    this.handleNotRunning = this.handleNotRunning.bind(this);
+    this.handleShowResults = this.handleShowResults.bind(this);
+    this.handleHideResults = this.handleHideResults.bind(this);
     this.state = {
-      isRunning: false,
-      secondsElapsed: 360,
-      lastClearedIncrementer: null,
-      mathProblems: []
-      
-    };
-   this.incrementer = null;
-  }
-
-  handleStartClick(secondsElapsed,incrementer) {
-    // this.isRunning = true;
-    console.log(this.incrementer);
-
-    var countDown = (secondsElapsed) => {
-
-      if (this.state.secondsElapsed > 0 ) {
-        this.setState({
-          secondsElapsed: this.state.secondsElapsed -1,
-          isRunning: true,
-          // mathProblems: {
-          // num1 : randomizer(1,9),
-          // num2 : randomizer(1,9)
-          // }
-
-        });
-      } else {
-        this.setState({
-          // secondsElapsed: this.state.secondsElapsed
-          isRunning: false
-        });
-        clearInterval(this.incrementer);
-      }
+      isRunning : false,
+      showResults: false
     }
-    this.incrementer = setInterval(countDown, 1000);
-    // this.addProblem();
   }
 
-  handleStopClick() {
-    // this.isRunning = false;
-    console.log('not running');
-    clearInterval(this.incrementer);
-    this.setState({
-      lastClearedIncrementer: this.incrementer,
-      isRunning: false
-    });
+  handleIsRunning() {
+    this.setState((prevState) => ({
+      isRunning : true
+    }));
   }
 
-  handleResetClick() {
-    // this.isRunning = false;
-    clearInterval(this.incrementer);
-    this.setState({
-      secondsElapsed: 15,
-      isRunning: false
-    });
-  } 
-  
-  handleAnswer(e, num1, num2, input) {
-    e.preventDefault();
-    const val = parseInt(input.input);
-    // const val = parseInt(e.input.value);
-    console.log(e);
-    console.log(val);
-    // if (val === NaN ) {return false}
-    const isCorrect = num1 * num2 === val ?  true : false;
-    const newProblem = {
-      num1 : num1,
-      num2 : num2,
-      answer : val,
-      isCorrect : isCorrect
-    }
-  if ( !isNaN(val)) {
-  this.setState(prevState => ({
-    mathProblems: prevState.mathProblems.concat(newProblem)
-  }));
-  console.log(this.state.value);
-  e.target.input = "";
-  e.target.focus();
-  console.dir(this.textInput.value);
-  this.textInput.value = "";
+  handleNotRunning() {
+    this.setState((prevState) => ({
+      isRunning : false
+    }));
+  }  
 
-}
-
-  // console.log(this.state.mathProblems);
-    // this.setState({
-    //   mathProblems : mathProblems.push(newProblem)
-    // });
-    
+  handleShowResults() {
+    this.setState( (prevState) => ({
+      showResults: true
+    }));
   }
-    
-  
 
+  handleHideResults() {
+    this.setState( (prevState) => ({
+      showResults: false
+    }));
+  }
 
-
+  // handleResetGame() {
+  //   this.setState
+  // }
 
   render() {
-
+    const showResults = this.state.showResults;
     return (
       <div className="App">
-        <div className="App-header">
-          <h2>Math Fact Generator</h2>
-        </div>
-        <p className="App-intro">
-          
-        </p>
-        <Timer handleStartClick={this.handleStartClick} 
-        handleStopClick={this.handleStopClick} 
-        handleResetClick={this.handleResetClick} 
-        secondsElapsed={this.state.secondsElapsed}
-        isRunning={this.state.isRunning} />
+      { !showResults && <div> 
+        <p> Complete the math problems before the timer runs out!</p>
+        <Timer handleIsRunning={this.handleIsRunning}
+      handleNotRunning={this.handleNotRunning}
+      isRunning={this.state.isRunning}
+      handleShowResults={this.handleShowResults} /></div>}
 
-
-        {this.state.isRunning && <MathFact isRunning={this.state.isRunning} 
-        mathProblems={this.state.mathProblems} 
-        handleAnswer={this.handleAnswer} 
-        inputRef={input => this.textInput = input}/>}
+      <MathFact handleShowResults={this.handleShowResults} 
+      isRunning={this.state.isRunning} 
+      showResults={this.state.showResults} />
+      {showResults && <button onClick={this.handleHideResults} >Start again?</button>}
+    { /* State change: 
+    Math Fact: answerValue: "",num1: randomizer(2,12),num2: randomizer(2,12),completedFacts: []
+    Timer: secondsElapsed: 60,lastClearedIncrementer: null, */}
 
       </div>
-
     );
   }
 }
