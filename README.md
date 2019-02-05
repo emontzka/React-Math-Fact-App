@@ -4,22 +4,14 @@ An app to practice math facts (currently just multiplication).
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+git clone git@github.com:emontzka/React-Math-Fact-App.git
+cd React-Math-Fact-App
+npm install
+npm start
 
-### Prerequisites
+# Demo App
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-### Installing
-
-
-```
-
-## Deployment
+[Math Fact App](https://math-fact-app.netlify.com)
 
 
 
