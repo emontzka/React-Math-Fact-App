@@ -48,6 +48,7 @@ class App extends Component {
     const showResults = this.state.showResults;
     return (
       <div className="App">
+      <header><h1 className="app-title">Math Fact App</h1></header>
       { !showResults && <div> 
         <p> Complete the math problems before the timer runs out!</p>
         <Timer handleIsRunning={this.handleIsRunning}

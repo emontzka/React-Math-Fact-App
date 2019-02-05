@@ -8,7 +8,6 @@ class Timer extends Component {
     this.state = {
       secondsElapsed: 30,
       lastClearedIncrementer: null,
-   
     };
     this.incrementer = null;
   }
@@ -51,9 +50,11 @@ class Timer extends Component {
     return (
         <div className="Timer">
 
-        <p>{this.state.secondsElapsed} seconds</p>
+        <p className="time-remaining">Time Remaining: {this.state.secondsElapsed} seconds 
+        {this.props.isRunning && <button className="small-btn" onClick={ this.handleStopClick }>Pause Timer</button>}</p>
+        
         {!this.props.isRunning && <button onClick={ this.handleStartClick }>Start Timer!</button>}
-        {this.props.isRunning && <button onClick={ this.handleStopClick }>stop</button>}
+        
         </div>
       )
   }

@@ -69,10 +69,9 @@ class MathFact extends Component {
           answerValue={this.state.answerValue} 
           num1={this.state.num1} 
           num2={this.state.num2} />
-          <input type="submit" onSubmit={this.handleAnswer} value="submit" />
+          <input className='small-btn' type="submit" onSubmit={this.handleAnswer} value="submit" />
           </div>
           
-          {console.log('math fact rerendered')}
         </form>
 
         <Results showResults={this.props.showResults} completedFacts={this.state.completedFacts} />

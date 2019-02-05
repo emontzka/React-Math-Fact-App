@@ -2,4 +2,40 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  font-size: 16px;
+}
+* {
+  box-sizing: border-box;
+}
+button, input[type="submit"] {
+  border-radius: 0;
+  border: 2px solid #000000;
+  background: #fff;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+button.small-btn, input.small-btn {
+  padding: 0 5px;
+  font-size: 14px;
+  margin-left: 10px;
+}
+header {
+  background: #000000;
+  width: 100%;
+  padding: 30px;
+}
+h1.app-title {
+  color: #ffffff;
+  text-align: center;
+}
+.math-fact {
+  font-size: 22px;
+}
+.math-fact input[type="text"] {
+  width: 3em;
+  font-size: 22px;
+  margin-left: 10px;
 }
